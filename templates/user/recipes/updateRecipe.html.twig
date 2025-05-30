@@ -1,0 +1,100 @@
+{% extends "user/base.html.twig" %}
+
+{% block title %}Modifier une recette
+{% endblock %}
+
+{% block main %}
+	<main>
+		<h2>Modifier ta recette</h2>
+
+		{% for message in app.flashes ('error') %}
+			<div class="alert alert-danger">{{message}}</div>
+		{% endfor %}
+
+		{% for message in app.flashes ('success') %}
+			<div class="alert alert-success">{{message}}</div>
+		{% endfor %}
+
+
+		<form method="post" enctype="multipart/form-data" class="form-create">
+
+			<label>Titre de ta recette :
+			</label>
+			<input type="text" name="title" value="{{recipe.title}}" required>
+
+			<select name="category">
+			<option value="">-- Choisir une catégorie --</option>
+				{% for category in categories %}
+					<option value="{{category.id}}" {% if category.id == recipe.category.id %} selected {% endif %}>{{category.title}}</option>
+
+				{% endfor %}
+
+			</select>
+
+
+			<input type="file" name="image">
+			{# {% if recipe.image %}
+				<p>Image actuelle :</p>
+				<img src="{{asset('uploads/recipes/' ~ recipe.image)}}" alt="Image de la recette">
+
+			{% endif %} #}
+
+
+			<label>Description de ta recette :
+			</label>
+			<textarea name="description" required>{{recipe.description}}</textarea>
+
+			<label>Nombre de personnes :
+			</label>
+			<input type="number" name="servings" min="1" class="WInput" value="{{recipe.servings}}" required>
+
+			<label>Temps de préparation :
+			</label>
+			<input type="text" name="prep_time" placeholder="ex: 1h30" class="WInput" value="{{recipe.prepTime}}" required>
+
+			<label>Temps de cuisson :
+			</label>
+			<input type="text" name="cooking_time" placeholder="ex: 30m" class="WInput" value="{{recipe.cookingTime}}" required>
+
+
+			<div id="ingredients-container">
+				<label>Ingrédients :
+				</label>
+				{% for i, ingredient in recipe.ingredients %}
+					<div>
+						<input type="text" name="ingredients[{{i}}][quantity]" placeholder="ex: 100g" class="WInput" value="{{ ingredient.quantity }}" required>
+						<input type="text" name="ingredients[{{i}}][name]" placeholder="ex: beurre" value="{{ingredient.name}}" required>
+					</div>
+				{% endfor %}
+
+			</div>
+
+			<button type="button" id="add-ingredients-btn">+ Ajouter ingrédient</button>
+
+			<div id="steps-container">
+				<label>Étapes :
+				</label>
+
+				{% for i, step in recipe.steps %}
+					<div>
+						<input type="text" name="steps[{{i}}]" placeholder="Étape {{i+1}}" value="{{step}}" required>
+					</div>
+				{% endfor %}
+
+			</div>
+			<button type="button" id="add-steps-btn">+ Ajouter étape</button>
+
+			<div>
+				<label>Publié ? :
+				</label>
+				<input type="checkbox" name="isPublished" {% if recipe.isPublished %} checked {% endif %}>
+			</div>
+
+
+			<button type="submit">Modifier ta recette</button>
+
+		</form>
+
+	</main>
+
+{% endblock %}

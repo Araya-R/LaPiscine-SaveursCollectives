@@ -1,0 +1,88 @@
+{% extends "user/base.html.twig" %}
+
+{% block title %}Créer une recette
+{% endblock %}
+
+{% block main %}
+	<main>
+		<h2>Créer ta recette</h2> 
+
+		{% for message in app.flashes ('error') %}
+			<div class="alert alert-danger">{{message}}</div>
+		{% endfor %}
+
+		{% for message in app.flashes ('success') %}
+			<div class="alert alert-success">{{message}}</div>
+		{% endfor %}
+
+
+		<form method="post" enctype="multipart/form-data" class="form-create">
+
+			<label>Titre de ta recette :
+			</label>
+			<input type="text" name="title" required>
+
+			<select name="category" required>
+				<option value="">-- Choisir une catégorie --</option>
+				{% for category in categories %}
+				<option value="{{category.id}}">{{category.title}}</option>
+					
+				{% endfor %}
+			</select>
+
+			<label>Image de ta recette :
+			</label>
+			<input type="file" name="image" required>
+
+			<label>Description de ta recette :
+			</label>
+			<textarea name="description" required></textarea>
+
+			<label>Nombre de personnes :
+			</label>
+			<input type="number" name="servings" min="1" class="WInput" required>
+
+			<label>Temps de préparation :
+			</label>
+			<input type="text" name="prep_time" placeholder="ex: 1h30" class="WInput" required>
+
+			<label>Temps de cuisson :
+			</label>
+			<input type="text" name="cooking_time" placeholder="ex: 30m" class="WInput" required>
+
+
+			<div id="ingredients-container">
+				<label>Ingrédients :
+				</label>
+				<div>
+
+					<input type="text" name="ingredients[0][quantity]" placeholder="ex: 100g" class="WInput" required>
+					<input type="text" name="ingredients[0][name]" placeholder="ex: beurre" required>
+				</div>
+			</div>
+
+			<button type="button" id="add-ingredients-btn">+ Ajouter ingrédient</button>
+
+			<div id="steps-container">
+				<label>Étapes :
+				</label>
+				<div>
+					<input type="text" name="steps[0]" placeholder="Étape 1" required>
+				</div>
+			</div>
+			<button type="button" id="add-steps-btn">+ Ajouter étape</button>
+
+			<div>
+				<label>Publié ? :
+				</label>
+				<input type="checkbox" name="isPublished">
+			</div>
+
+
+			<button type="submit">Créer ta recette</button>
+
+		</form>
+
+	</main>
+
+{% endblock %}

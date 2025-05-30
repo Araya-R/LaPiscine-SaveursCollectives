@@ -1,0 +1,15 @@
+{% extends "user/base.html.twig" %}
+
+{% block title %}Erreur 404
+{% endblock %}
+
+{% block main %}
+	<div class="container">
+		<h1>Erreur 404</h1>
+
+		<p>{{message | default ("Cette page n'existe pas.")}}</p>
+
+    
+		<a href="{{ path('user-list-recipes') }}">Retour à la liste des recettes</a>
+	</div>
+{% endblock %}

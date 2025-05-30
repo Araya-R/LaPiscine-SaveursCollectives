@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="{{asset('assets/css/main.css')}}">
+		<title>
+			{% block title %}{% endblock %}
+		</title>
+	</head>
+	<body>
+		<header>
+			<nav>
+				<ul>
+					<li>lienA</li>
+				</ul>
+			</nav>
+
+			<div class="auth-button">
+				<a href="{{path('login')}}">Connexion</a>
+				<a href="{{path('register')}}">Inscription</a>
+
+			</div>
+
+		</header>
+
+		{% block main %}{% endblock %}
+
+		{% include "guest/partials/_footer.html.twig" %}
+
+		<!-- Scripts -->
+		{% block javascript %} 
+		<script src="{{asset('assets/js/index.js')}}"></script>
+		{% endblock %}
+
+	</body>
+
+</html>

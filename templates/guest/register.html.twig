@@ -1,0 +1,29 @@
+{% extends "guest/base.html.twig" %}
+
+{% block title %}Inscription
+{% endblock %}
+
+{% block main %}
+	<main>
+		<h2>Inscription</h2>
+
+		{% for message in app.flashes ('error') %}
+			<div class="alert alert-danger">{{message}}</div>
+		{% endfor %}
+	
+		<form method="POST" enctype="multipart/form-data">
+
+			{# accept="image/*" => restreindre les fichiers sélectionnables aux seuls fichiers d'image #}
+			<input type="file" name="profileImage" accept="image/*"> 
+
+            <input type="text" name="pseudo" placeholder="Pseudo"required>
+
+            <input type="email" name="email" placeholder="Email" required>
+
+			<input type="password" name="password" placeholder="Mot de passe" required>
+			
+
+			<button type="submit">S'inscrire</button>
+		</form>
+	</main>
+{% endblock %}

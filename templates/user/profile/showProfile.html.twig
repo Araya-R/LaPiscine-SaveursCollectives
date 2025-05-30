@@ -1,0 +1,35 @@
+{% extends "user/base.html.twig" %}
+
+{% block title %}Mon profil
+{% endblock %}
+
+{% block main %}
+	<main>
+		<h2>Mon profil</h2>
+		
+		<div class="profile-container">
+			{% if user.image %}
+				<p>
+					<strong>Image de profil :</strong>
+				</p>
+
+				<div class="profileImage">
+					<img src="{{ asset('uploads/users/' ~ user.image) }}" alt="Image de profil">
+				</div>
+
+			{% endif %}
+
+			<p>
+				<strong>Nom pseudonyme :</strong>
+				{{ user.pseudo }}
+			</p>
+			<p>
+				<strong>Email :</strong>
+				{{ user.email }}
+			</p>
+
+			<a href=>Modifier mon profil</a>
+		</div>
+
+	</main>
+{% endblock %}

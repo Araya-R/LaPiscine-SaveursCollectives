@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="{{asset('assets/css/main.css')}}">
+		<title>
+			{% block title %}{% endblock %}
+		</title>
+	</head>
+	<body>
+		<header>
+			<nav>
+				<ul>
+					<li><a href="{{path('user-home')}}">Accueil</a></li>
+					<li><a href="{{path('user-list-recipes')}}">Mes recettes</a></li>
+				</ul>
+			</nav>
+
+			{% if app.user %}
+				<p>Connecté en tant que :
+					<strong>{{app.user.pseudo}}</strong>
+				</p>
+			{% else %}
+				<p>Vous n'êtes pas connecté.</p>
+			{% endif %}
+
+
+			<div class="auth-button">
+				<a href="{{path('logout')}}">Se déconnecter</a>
+				<a href="{{path('recipe-new')}}">Créer</a>
+			</div>
+		</header>
+
+		{% block main %}{% endblock %}
+
+		{% include "user/partials/_footer.html.twig" %}
+
+		{% block javascript %}
+
+			 <script src="{{asset('assets/js/index.js')}}"></script>
+		{% endblock %}
+
+
+	</body>
+
+</html>

@@ -1,0 +1,66 @@
+{% extends "user/base.html.twig" %}
+
+{% block title %}Mes recettes
+{% endblock %}
+
+{% block main %}
+	<main>
+
+		<h2>Mes recettes</h2>
+
+		{% if recipes is empty %}
+			<p>Vous n'avez pas encore créé de recette.</p>
+		{% else %}
+
+			{% for message in app.flashes ('error') %}
+				<div class="alert alert-danger">{{message}}</div>
+			{% endfor %}
+
+			{% for message in app.flashes ('success') %}
+				<div class="alert alert-success">{{message}}</div>
+			{% endfor %}
+
+
+			<table>
+				<thead>
+					<tr>
+						<th>Image</th>
+						<th>Titre</th>
+						<th>Description</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for recipe in recipes %}
+
+						<tr>
+							<td>
+								{% if recipe.image %}
+									<img src="{{asset('uploads/recipes/' ~ recipe.image)}}" alt="Image de {{recipe.title}}">
+								{% else %}
+									<span>Pas d'image</span>
+								{% endif %}
+
+							</td>
+							<td>
+								{{recipe.title}}
+							</td>
+							<td>
+								{{recipe.description}}
+							</td>
+							<td>
+								<a href="{{path ('user-delete-recipe', {'id' : recipe.id} )}}">Supprimer🗑️</a>
+								<a href="{{path ('user-update-recipe', {'id' : recipe.id} )}}">Modifier✏️</a>
+							</td>
+						</tr>
+
+					{% endfor %}
+				</tbody>
+
+			</table>
+
+		{% endif %}
+
+
+	</main>
+{% endblock %}
