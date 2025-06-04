@@ -1,0 +1,91 @@
+{% extends "user/base.html.twig" %}
+
+{% block title %}
+	{{recipe.title}}
+{% endblock %}
+
+{% block main %}
+	<main>
+		<div class="detailRecipe-wrapper">
+			<h2>{{recipe.title}}</h2>
+			{% if recipe.image %}
+				<div class="recipeImg">
+					<img src="{{asset ('uploads/recipes/' ~ recipe.image)}}" alt="{{recipe.title}}">
+				</div>
+			{% endif %}
+
+			<p>
+				<strong>Description :</strong>
+				{{recipe.description}}</p>
+			<p>
+				<strong>Catégorie :</strong>
+				{{recipe.category.title}}</p>
+			<p>
+				<strong>Pour :</strong>
+				{{recipe.servings}}</p>
+			<p>
+				<strong>Temps de préparation :</strong>
+				{{recipe.prepTime}}</p>
+			<p>
+				<strong>Temps de cuisson :</strong>
+				{{recipe.cookingTime}}</p>
+
+			<h3>Ingrédients :</h3>
+			<ul>
+				{% for ingredient in recipe.ingredients %}
+					<li>{{ingredient.quantity}}
+						{{ingredient.name}}</li>
+				{% endfor %}
+			</ul>
+
+			<h3>Étapes :</h3>
+			<ul>
+				{% for step in recipe.steps %}
+					<li>{{step}}</li>
+
+				{% endfor %}
+			</ul>
+
+			<a href="{{ path('user-home') }}">Retour à l’accueil</a>
+		</div>
+
+		{# affichage de commentaires si existe #}
+		<div class="comments-wrapper">
+			<h2>Commentaires :</h2>
+
+			{% if comments is not empty %}
+
+				{% for comment in comments %}
+					<div>
+						<strong>{{comment.user.pseudo ?? comment.user.email}}</strong>
+						le
+						{{comment.createdAt | date ('d/m/Y')}}
+						<p>{{comment.content}}</p>
+					</div>
+				{% endfor %}
+
+
+			{% else %}
+				<p>Aucun commentaire pour cette recette</p>
+			{% endif %}
+		</div>
+
+
+		{# formulaire visible uniquement si connecté #}
+		<div>
+			{% if app.user %}
+				<form action="{{path('recipe-add-comment', {'id': recipe.id})}}" method="post">
+					<textarea name="comment" placeholder="votre commentaire" required></textarea>
+					<button type="submit">Commenter</button>
+				</form>
+
+			{% else %}
+				<p>
+					<a href="{{path('login')}}">Connectez-vous</a>pour commenter.</p>
+			{% endif %}
+
+		</div>
+
+	</main>
+
+{% endblock %}

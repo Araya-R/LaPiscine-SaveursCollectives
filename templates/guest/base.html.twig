@@ -4,6 +4,11 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="{{asset('assets/css/main.css')}}">
+
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Hand+Pre:wght@400..700&display=swap" rel="stylesheet">
+
 		<title>
 			{% block title %}{% endblock %}
 		</title>
@@ -29,8 +34,8 @@
 		{% include "guest/partials/_footer.html.twig" %}
 
 		<!-- Scripts -->
-		{% block javascript %} 
-		<script src="{{asset('assets/js/index.js')}}"></script>
+		{% block javascript %}
+			 <script src="{{asset('assets/js/index.js')}}"></script>
 		{% endblock %}
 
 	</body>

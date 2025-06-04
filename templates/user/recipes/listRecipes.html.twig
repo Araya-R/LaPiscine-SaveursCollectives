@@ -24,9 +24,10 @@
 			<table>
 				<thead>
 					<tr>
+						<th>Publié?</th>
 						<th>Image</th>
 						<th>Titre</th>
-						<th>Description</th>
+						<th>Catégorie</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
@@ -34,6 +35,9 @@
 					{% for recipe in recipes %}
 
 						<tr>
+							<td>
+								{{recipe.isPublished ? 'Oui' : 'Non'}}
+							</td>
 							<td>
 								{% if recipe.image %}
 									<img src="{{asset('uploads/recipes/' ~ recipe.image)}}" alt="Image de {{recipe.title}}">
@@ -43,10 +47,10 @@
 
 							</td>
 							<td>
-								{{recipe.title}}
+								<a href="{{path('user-detail-recipe', {'id':recipe.id })}}">{{recipe.title}}</a>
 							</td>
 							<td>
-								{{recipe.description}}
+								{{recipe.category.title}}
 							</td>
 							<td>
 								<a href="{{path ('user-delete-recipe', {'id' : recipe.id} )}}">Supprimer🗑️</a>

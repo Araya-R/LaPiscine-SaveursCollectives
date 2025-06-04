@@ -16,6 +16,21 @@ class RecipeRepository extends ServiceEntityRepository
         parent::__construct($registry, Recipe::class);
     }
 
+    //Je crée une méthode personnalisée
+    //créer une fonction avec en paramètre l'id de la catégorie et le nb max de recettes à retourner
+    public function findTopPublishedByCategory($categoryId, $limit = 4): array { 
+        
+        //QueryBuilder permet de construire une requête SQL de manière fluide et sécurisée
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.category = :cat') //condition la catégorie associé à la recette = valeur du paramètre :cat (défini ci-dessous)
+            ->andWhere('r.isPublished = true') //condition recupère que les recette publiées 
+            ->setParameter('cat', $categoryId) // assigne la valeur au param :cat
+            ->orderBy('r.createdAt', 'DESC') // trie par date de creation (les + récente)
+            ->setMaxResults($limit) //on limite à 4 résultats
+            ->getQuery() //on finalise
+            ->getResult(); //on exécute
+    }
+
     //    /**
     //     * @return Recipe[] Returns an array of Recipe objects
     //     */

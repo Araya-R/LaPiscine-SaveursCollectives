@@ -4,8 +4,7 @@
 {% endblock %}
 
 {% block main %}
-	<div id="imgFond">
-		<img src="{{asset('assets/images/fond.png')}}" alt="image de fond">
+	<div id="bgImg">
 	</div>
 	<main>
 
@@ -19,53 +18,33 @@
 		</section>
 
 		<div class="section-wrapper">
-			<section>
-				<h2>Nos champions du mois</h2>
-				<div>
-					<div class="imgProfil"><img src="{{asset('assets/images/logo.png')}}" alt=""></div>
-					<div class="imgProfil"><img src="{{asset('assets/images/logo.png')}}" alt=""></div>
-					<div class="imgProfil"><img src="{{asset('assets/images/logo.png')}}" alt=""></div>
-				</div>
-			</section>
+			{% for item in categoriesWithRecipes %}
+				<section>
+					<h2>{{item.category.title}}</h2>
+					<div>
+						{% for recipe in item.recipes %}
+							<div>
+								<a href="{{path('detail-recipe', {'id':recipe.id })}}">
+									{% if recipe.image %}
+										<div class="imgRecipe">
+											<img src="{{asset('uploads/recipes/' ~ recipe.image)}}" alt="{{recipe.title}}">
 
-			<section>
-				<h2>Les recettes les plus likées</h2>
-				<div>
-					<div class="imgProfil"><img src="{{asset('assets/images/logo.png')}}" alt=""></div>
-					<div class="imgProfil"><img src="{{asset('assets/images/logo.png')}}" alt=""></div>
-					<div class="imgProfil"><img src="{{asset('assets/images/logo.png')}}" alt=""></div>
-					<div class="imgProfil"><img src="{{asset('assets/images/logo.png')}}" alt=""></div>
+										</div>
+									{% else %}
+										<div class="imgRecipe">
+											<img src="{{asset('assets/images/logo.png')}}" alt="image par défaut">
 
-				</div>
-			</section>
+										</div>
+									{% endif %}
 
-			<section>
-				<h2>Entrées</h2>
-				<div>
-					<div class="imgProfil"><img src="{{asset('assets/images/logo.png')}}" alt=""></div>
-					<div class="imgProfil"><img src="{{asset('assets/images/logo.png')}}" alt=""></div>
-					<div class="imgProfil"><img src="{{asset('assets/images/logo.png')}}" alt=""></div>
-					<div class="imgProfil"><img src="{{asset('assets/images/logo.png')}}" alt=""></div>
-				</div>
-			</section>
-			<section>
-				<h2>Plats</h2>
-				<div>
-					<div class="imgProfil"><img src="{{asset('assets/images/logo.png')}}" alt=""></div>
-					<div class="imgProfil"><img src="{{asset('assets/images/logo.png')}}" alt=""></div>
-					<div class="imgProfil"><img src="{{asset('assets/images/logo.png')}}" alt=""></div>
-					<div class="imgProfil"><img src="{{asset('assets/images/logo.png')}}" alt=""></div>
-				</div>
-			</section>
-			<section>
-				<h2>Desserts</h2>
-				<div>
-					<div class="imgProfil"><img src="{{asset('assets/images/logo.png')}}" alt=""></div>
-					<div class="imgProfil"><img src="{{asset('assets/images/logo.png')}}" alt=""></div>
-					<div class="imgProfil"><img src="{{asset('assets/images/logo.png')}}" alt=""></div>
-					<div class="imgProfil"><img src="{{asset('assets/images/logo.png')}}" alt=""></div>
-				</div>
-			</section>
+									<p>{{recipe.title}}</p>
+								</a>
+							</div>
+						{% endfor %}
+					</div>
+				</section>
+
+			{% endfor %}
 		</div>
 	</main>
 {% endblock %}

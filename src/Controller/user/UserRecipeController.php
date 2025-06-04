@@ -4,6 +4,7 @@ namespace App\Controller\user;
 
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
+use App\Repository\CommentRepository;
 use App\Repository\RecipeRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -107,23 +108,31 @@ class UserRecipeController extends AbstractController{
         $categories=$categoryRepository->findAll();
         return $this->render('user/recipes/createRecipe.html.twig', ['categories' =>$categories]);
     }
-//-----------------------------------------------------------------------------------------------//
+    //-----------------------------------------------------------------------------------------------//
 
     //LISTE DES RECETTES DE L'USER
 
     #[Route('/user/list-recipes', name:'user-list-recipes')]
     public function displayRecipes (RecipeRepository $recipeRepository){
 
-        $recipes=$recipeRepository->findAll();
+        $user=$this->getUser();
+        if(!$user){
+            throw $this->createAccessDeniedException('Vous devez être connecté pour voir vos recettes.');
+        }
+        $recipes=$recipeRepository->findBy(['user' =>$user]);
         return $this->render('user/recipes/listRecipes.html.twig',['recipes'=>$recipes]);
     }
 
-//-----------------------------------------------------------------------------------------------//
+    //-----------------------------------------------------------------------------------------------//
 
     //SUPPRIMER UNE RECETTE
 
     #[Route('/user/delete-recipe/{id}', name:'user-delete-recipe')]
     public function deleteRecipe($id, RecipeRepository $recipeRepository, EntityManagerInterface $entityManager){
+        $user = $this->getUser();
+        if(!$user){
+            return $this->redirectToRoute('login');
+        }
 
         try{
             $recipe = $recipeRepository->findOneById($id);
@@ -141,12 +150,17 @@ class UserRecipeController extends AbstractController{
         }
         return $this->redirectToRoute('user-list-recipes');
     }
-//-----------------------------------------------------------------------------------------------//
+    //-----------------------------------------------------------------------------------------------//
 
     //MODIFIER UNE RECETTE
 
     #[Route('/user/update-recipe/{id}', name:'user-update-recipe')]
     public function updateRecipe($id, RecipeRepository $recipeRepository,CategoryRepository $categoryRepository ,EntityManagerInterface $entityManager, Request $request, ParameterBagInterface $parameterBag){
+
+        $user = $this->getUser();
+        if(!$user){
+            return $this->redirectToRoute('login');
+        }
 
         $recipe= $recipeRepository->find($id);
 
@@ -204,4 +218,24 @@ class UserRecipeController extends AbstractController{
         }
         return $this->render('user/recipes/updateRecipe.html.twig', ['categories'=>$categories, 'recipe'=>$recipe]);
     }
-}
+
+    //-----------------------------------------------------------------------------------------------//
+        #[Route('/user/detail-recipe/{id}', name:'user-detail-recipe')]
+    public function displayRecipe($id, RecipeRepository $recipeRepository, CommentRepository $commentRepository){
+        
+        $user = $this->getUser();
+        if(!$user){
+            return $this->redirectToRoute('login');
+        }
+
+        $recipe=$recipeRepository->findOneById($id);
+        if(!$recipe){
+            $this->addFlash('error', 'Recette non trouvée');
+            return $this->redirectToRoute('404');
+        }
+        $comments = $commentRepository->findByRecipeOrderedByDate($recipe);
+        return $this->render('user/recipes/detailRecipe.html.twig', ['recipe'=>$recipe, 'comments'=> $comments]);
+    }
+}   
+
+

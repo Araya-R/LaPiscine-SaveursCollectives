@@ -1,0 +1,42 @@
+{% extends "user/base.html.twig" %}
+
+{% block title %}Modifier mon profil
+{% endblock %}
+
+{% block main %}
+	<main>
+		<h2>Modifier mon profil</h2>
+
+		{% for message in app.flashes ('error') %}
+			<div class="alert alert-danger">{{message}}</div>
+		{% endfor %}
+
+		{% for message in app.flashes ('success') %}
+			<div class="alert alert-success">{{message}}</div>
+		{% endfor %}
+
+		<form method="POST" enctype="multipart/form-data">
+
+			{% if user.image %}
+				<div class="profileImage">
+					<img src="{{asset('uploads/users/' ~ user.image)}}" alt="image de profil de {{user.pseudo}}">
+				</div>
+			{% else %}
+				<p>Aucune image de profil</p>
+			{% endif %}
+
+
+			{# accept="image/*" => restreindre les fichiers sélectionnables aux seuls fichiers d'image #}
+			<input type="file" name="profileImage" accept="image/*">
+
+			<input type="text" name="pseudo" placeholder="Pseudo" value="{{user.pseudo}}" required>
+
+			<input type="email" name="email" placeholder="Email" value="{{user.email}}" required>
+
+			<input type="password" name="password" placeholder="Mot de passe" value="{{user.password}}" required>
+
+
+			<button type="submit">Modifier</button>
+		</form>
+	</main>
+{% endblock %}
