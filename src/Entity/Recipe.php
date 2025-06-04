@@ -63,9 +63,16 @@ class Recipe
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'recipe')]
     private Collection $comments;
 
+    /**
+     * @var Collection<int, Like>
+     */
+    #[ORM\OneToMany(targetEntity: Like::class, mappedBy: 'recipe')]
+    private Collection $likes;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     
@@ -282,6 +289,46 @@ class Recipe
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Like>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(Like $like): static
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes->add($like);
+            $like->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(Like $like): static
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getRecipe() === $this) {
+                $like->setRecipe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    // méthode vérifiant si un user donné a déjà liké la recette
+    public function isLikedByUser(User $user ){ //attend un objet en entrée et renvoie un bool
+        foreach ($this->likes as $like){  //parcourt la collection $this->likes(tous les objets like liés à cette recette)
+            if ($like ->getUser()=== $user){ //vérifie si user associé à ce like est le mêmme que l'user en param
+                return true;
+            }
+        }
+        return false;
     }
 
     

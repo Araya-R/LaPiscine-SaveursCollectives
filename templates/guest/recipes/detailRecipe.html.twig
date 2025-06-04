@@ -49,6 +49,24 @@
 			<a href="{{ path('guest-home') }}">Retour à l’accueil</a>
 		</div>
 
+		{# affichage des likes #}
+		<div class="like-wrapper">
+			{% if app.user %}
+				{% if recipe.isLikedByUser(app.user) %}
+					<a href="{{ path('like-toggle', {'id': recipe.id}) }}" class="btn-unlike">👎 Je n'aime plus</a>
+				{% else %}
+					<a href="{{ path('like-toggle', {'id': recipe.id}) }}" class="btn-like">❤️ J'aime</a>
+				{% endif %}
+			{% else %}
+				<p>
+					<a href="{{ path('login') }}">Connectez-vous</a>
+					pour liker cette recette.</p>
+			{% endif %}
+
+			<p>Nombre de likes ❤️:
+				{{ recipe.likes|length }}</p>
+		</div>
+
 		{# affichage de commentaires si existe #}
 		<div class="comments-wrapper">
 			<h2>Commentaires :</h2>
