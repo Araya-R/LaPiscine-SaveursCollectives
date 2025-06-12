@@ -1,0 +1,30 @@
+{% extends "guest/base.html.twig" %}
+
+{% block title %}Résultat de recherche "{{search}}"
+{% endblock %}
+
+{% block main %}
+	<main>
+		<h2>Résultat de la recherche "{{search}}"</h2>
+			<ul>
+				{% for recipesFound in recipesFound %}
+					<li class="showRecipe">
+						{% if recipesFound.image %}
+							<div>
+								<img src="{{asset ('uploads/recipes/' ~ recipesFound.image)}}" alt="{{recipesFound.title}}">
+							</div>
+						{% endif %}
+
+						<a href="{{ path('detail-recipe', {id: recipesFound.id}) }}">
+							{{ recipesFound.title }}
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+
+		<a href="{{ path('guest-home') }}" class="home-btn">Retour à l'accueil</a>
+
+	</main>
+{% endblock %}
+
+

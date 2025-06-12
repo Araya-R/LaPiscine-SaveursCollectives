@@ -36,7 +36,14 @@ class UserPageController extends AbstractController{
                 'recipes'=>$recipes,
             ];
         }
-        return $this->render('user/home.html.twig', ['categoriesWithRecipes' =>$categoriesWithRecipes]);
+
+        $mostLiked=$recipeRepository->findMostLiked(5);
+
+        return $this->render('user/home.html.twig', [
+            'categoriesWithRecipes' =>$categoriesWithRecipes,
+            'mostLiked'=> $mostLiked,
+        
+        ]);
     }
 
 //-----------------------------------------------------------------------------------------------//

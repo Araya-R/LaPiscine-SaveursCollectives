@@ -4,8 +4,7 @@
 {% endblock %}
 
 {% block main %}
-	<div id="bgImg">
-	</div>
+	<div id="bgImg"></div>
 	<main>
 
 		<section>
@@ -17,29 +16,49 @@
 			</div>
 		</section>
 
+
 		<div class="section-wrapper">
+			<section>
+				<h2>❤️Les recettes les plus likées❤️</h2>
+				<div>
+					{% for recipe in mostLiked %}
+						<a href="{{path('detail-recipe', {'id':recipe.id })}}">
+							{% if recipe.image %}
+								<div class="imgRecipe">
+									<img src="{{asset('uploads/recipes/' ~ recipe.image)}}" alt="{{recipe.title}}">
+								</div>
+							{% else %}
+								<div class="imgRecipe">
+									<img src="{{asset('assets/images/logo.png')}}" alt="image par défaut">
+								</div>
+							{% endif %}
+							<p>{{ recipe.title }}</p>
+							<p>({{ recipe.likes|length }}❤️)</p>
+						</a>
+					{% endfor %}
+				</div>
+			</section>
+
 			{% for item in categoriesWithRecipes %}
 				<section>
 					<h2>{{item.category.title}}</h2>
 					<div>
 						{% for recipe in item.recipes %}
-							<div>
-								<a href="{{path('detail-recipe', {'id':recipe.id })}}">
-									{% if recipe.image %}
-										<div class="imgRecipe">
-											<img src="{{asset('uploads/recipes/' ~ recipe.image)}}" alt="{{recipe.title}}">
+							<a href="{{path('detail-recipe', {'id':recipe.id })}}">
+								{% if recipe.image %}
+									<div class="imgRecipe">
+										<img src="{{asset('uploads/recipes/' ~ recipe.image)}}" alt="{{recipe.title}}">
 
-										</div>
-									{% else %}
-										<div class="imgRecipe">
-											<img src="{{asset('assets/images/logo.png')}}" alt="image par défaut">
+									</div>
+								{% else %}
+									<div class="imgRecipe">
+										<img src="{{asset('assets/images/logo.png')}}" alt="image par défaut">
 
-										</div>
-									{% endif %}
+									</div>
+								{% endif %}
 
-									<p>{{recipe.title}}</p>
-								</a>
-							</div>
+								<p>{{recipe.title}}</p>
+							</a>
 						{% endfor %}
 					</div>
 				</section>

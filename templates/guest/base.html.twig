@@ -15,16 +15,20 @@
 	</head>
 	<body>
 		<header>
-			<nav>
-				<ul>
-					<li>lienA</li>
-				</ul>
-			</nav>
+			
+			<div class="nav-links">
+				<a href="{{path('guest-home')}}">Home</a>
+				<a href="{{path('categories')}}">Catégories</a>
+			</div>
 
-			<div class="auth-button">
+			<form action="{{path('search-recipe')}}" method="get">
+				<input type="text" name="search" placeholder="Rechercher une recette">
+				<button type="submit">🔍</button>
+			</form>
+
+			<div class="auth-links">
 				<a href="{{path('login')}}">Connexion</a>
 				<a href="{{path('register')}}">Inscription</a>
-
 			</div>
 
 		</header>

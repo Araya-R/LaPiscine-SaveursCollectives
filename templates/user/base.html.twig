@@ -15,12 +15,10 @@
 	</head>
 	<body>
 		<header>
-			<nav>
-				<ul>
-					<li><a href="{{path('user-home')}}">Accueil</a></li>
-					<li><a href="{{path('user-list-recipes')}}">Mes recettes</a></li>
-				</ul>
-			</nav>
+			<div class="nav-links">
+				<a href="{{path('user-home')}}">Home</a>
+				<a href="{{path('user-categories')}}">Catégories</a>
+			</div>
 
 			{% if app.user %}
 				<p>Connecté en tant que :
@@ -29,9 +27,15 @@
 			{% else %}
 				<p>Vous n'êtes pas connecté.</p>
 			{% endif %}
+			
+			<form action="{{path('user-search-recipe')}}" method="get">
+				<input type="text" name="search" placeholder="Rechercher une recette">
+				<button type="submit">🔍</button>
+			</form>
 
 			<div>
 				<a href="{{path('user-show-profile')}}">Mon profil</a>
+				<a href="{{path('user-list-recipes')}}">Mes recettes</a>
 			</div>
 
 

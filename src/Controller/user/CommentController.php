@@ -11,20 +11,22 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
-class CommentController extends AbstractController{
+class CommentController extends AbstractController
+{
 
-    #[Route('/recipe/{id}/comment', name:'recipe-add-comment', methods:['POST'])]
+    #[Route('/recipe/{id}/comment', name: 'recipe-add-comment', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
-    public function addComment (Request $request, Recipe $recipe, EntityManagerInterface $entityManager){
-        
-        $content=trim($request->request->get('comment'));
+    public function addComment(Request $request, Recipe $recipe, EntityManagerInterface $entityManager)
+    {
 
-        if(empty($content)){
+        $content = trim($request->request->get('comment'));
+
+        if (empty($content)) {
             $this->addFlash('error', 'Le commentaire ne peut être vide.');
-            return $this->redirectToRoute('user-detail-recipe', ['id' =>$recipe->getId()]);
+            return $this->redirectToRoute('user-detail-recipe', ['id' => $recipe->getId()]);
         }
 
-        $comment= new Comment();
+        $comment = new Comment();
         $comment->setContent($content);
         $comment->setCreatedAt(new \DateTimeImmutable());
         $comment->setUser($this->getUser());
@@ -35,6 +37,6 @@ class CommentController extends AbstractController{
 
         $this->addFlash('success', 'commentaire ajouté');
 
-        return $this->redirectToRoute('user-detail-recipe',['id'=>$recipe->getId()]);
+        return $this->redirectToRoute('user-detail-recipe', ['id' => $recipe->getId()]);
     }
 }

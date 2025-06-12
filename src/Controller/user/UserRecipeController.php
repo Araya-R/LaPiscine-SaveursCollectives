@@ -17,14 +17,16 @@ use App\Entity\Recipe;
 use PHPUnit\Framework\MockObject\Rule\Parameters;
 use Symfony\Bundle\SecurityBundle\Security\UserAuthenticator;
 use Symfony\Component\Routing\Attribute\Route as AttributeRoute;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserRecipeController extends AbstractController{
 
     //CRÉATION D'UNE NOUVELLE RECETTE
 
     // définir une route Symfony (url & redirections/liens)
-    #[Route('/recipe/new', name:'recipe-new')]
-
+    #[Route('/user/recipe/new', name:'recipe-new')]
+    #[IsGranted('ROLE_USER')]
+    
     //Injection de dépendance
     //Symfony injecte automatiquement 
     //Request: accéder aux données de la requête//formulaire
@@ -34,12 +36,6 @@ class UserRecipeController extends AbstractController{
     public function newRecipe(Request $request, EntityManagerInterface $entityManager, ParameterBagInterface $parameterBag, CategoryRepository $categoryRepository){
 
         if($request->isMethod('POST')){ // on vérifie que l'user a soumis le formulaire
-
-            //Vérification de l'user connecté
-            $user=$this->getUser(); //on récupère l'user courant connecté via getUser()
-            if(!$user){             //si la personne n'est connecté, on empêche l'action avec une exception d'accès interdit
-                throw $this->createAccessDeniedException("Vous devez être connecté pour créer une recette");
-            }
 
             //Récupération des données du formulaire
             $title=$request->request->get('title');
@@ -80,7 +76,6 @@ class UserRecipeController extends AbstractController{
 
             $recipe->setIsPublished($isPublished);
             $recipe->setCategory($category);
-            $recipe->setUser($user); //l'user connecté
 
             $recipe->setCreatedAt(new \DateTimeImmutable());
             $recipe->setUpdatedAt(new \DateTimeImmutable());
@@ -235,6 +230,28 @@ class UserRecipeController extends AbstractController{
         }
         $comments = $commentRepository->findByRecipeOrderedByDate($recipe);
         return $this->render('user/recipes/detailRecipe.html.twig', ['recipe'=>$recipe, 'comments'=> $comments]);
+    }
+
+    //-----------------------------------------------------------------------------------------------//
+
+    #[Route('/user/search-recipe', name:'user-search-recipe')]
+    public function search(Request $request, RecipeRepository $recipeRepository){
+        
+        $search=$request->query->get('search');
+        if(!$search){
+            $this->addFlash('error', 'Veuillez entrer un mot clé.');
+            return $this->redirectToRoute('user-home');
+        }
+
+        $recipesFound =$recipeRepository->findBySearch($search);
+        if(empty($recipesFound)){
+            $this->addFlash('error', 'Aucune recette trouvée.');
+            return $this->redirectToRoute('404');
+        }
+        return $this->render('user/recipes/searchResults.html.twig', [
+            'recipesFound'=>$recipesFound,
+            'search'=>$search
+        ]);
     }
 }   
 

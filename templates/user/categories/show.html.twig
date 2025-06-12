@@ -1,0 +1,34 @@
+{% extends 'user/base.html.twig' %}
+
+{% block title %}
+	{{ category.title }}
+{% endblock %}
+
+{% block main %}
+	<main>
+		<h2>{{ category.title }}</h2>
+
+		{% if recipes is not empty %}
+			<ul>
+				{% for recipe in recipes %}
+					<li class="showRecipe">
+						{% if recipe.image %}
+							<div>
+								<img src="{{asset ('uploads/recipes/' ~ recipe.image)}}" alt="{{recipe.title}}">
+							</div>
+						{% endif %}
+
+						<a href="{{ path('user-detail-recipe', {id: recipe.id}) }}">
+							{{ recipe.title }}
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<p>Aucune recette dans cette catégorie.</p>
+		{% endif %}
+
+		<a href="{{ path('user-categories') }}" class="home-btn">Retour à la liste des catégories</a>
+
+	</main>
+{% endblock %}

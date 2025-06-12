@@ -18,8 +18,9 @@ class RecipeRepository extends ServiceEntityRepository
 
     //Je crée une méthode personnalisée
     //créer une fonction avec en paramètre l'id de la catégorie et le nb max de recettes à retourner
-    public function findTopPublishedByCategory($categoryId, $limit = 4): array { 
-        
+    public function findTopPublishedByCategory($categoryId, $limit = 5): array
+    {
+
         //QueryBuilder permet de construire une requête SQL de manière fluide et sécurisée
         return $this->createQueryBuilder('r')
             ->andWhere('r.category = :cat') //condition la catégorie associé à la recette = valeur du paramètre :cat (défini ci-dessous)
@@ -29,6 +30,26 @@ class RecipeRepository extends ServiceEntityRepository
             ->setMaxResults($limit) //on limite à 4 résultats
             ->getQuery() //on finalise
             ->getResult(); //on exécute
+    }
+
+    public function findMostLiked(int $limit = 5)
+    {
+        return $this->createQueryBuilder('r')
+            ->leftJoin('r.likes', 'l')
+            ->groupBy('r.id')
+            ->orderBy('COUNT(l.id)', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findBySearch($search){
+
+        return $this->createQueryBuilder('r')
+        ->where('r.title LIKE :search') // condition SQL qui filtre les recettes dont le title correspond au motif LIKE :search
+        ->setParameter('search', '%'.$search.'%')
+        ->getQuery()
+        ->getResult();
     }
 
     //    /**

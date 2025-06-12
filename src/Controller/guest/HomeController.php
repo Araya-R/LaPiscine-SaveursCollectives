@@ -5,6 +5,7 @@ namespace App\Controller\guest;
 use App\Repository\CategoryRepository;
 use App\Repository\RecipeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -34,6 +35,14 @@ class HomeController extends AbstractController
             ];
         }
 
-        return $this->render('guest/home.html.twig', ['categoriesWithRecipes' =>$categoriesWithRecipes]);
+        $mostLiked=$recipeRepository->findMostLiked(5);
+
+        return $this->render('guest/home.html.twig', [
+            'categoriesWithRecipes' =>$categoriesWithRecipes,
+            'mostLiked'=> $mostLiked,
+        
+        ]);
     }
+
+    
 }

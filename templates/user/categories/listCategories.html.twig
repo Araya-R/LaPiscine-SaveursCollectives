@@ -1,0 +1,18 @@
+{% extends "user/base.html.twig" %}
+
+{% block title %}Liste des catégories
+{% endblock %}
+
+{% block main %}
+    <main>
+        <h2>Liste des catégories</h2>
+        {% for category in categories %}
+            <article>
+                <h3>
+                    <a href="{{ path('user-show-category', {'id':category.id}) }}">{{category.title}}</a>
+                </h3>            
+            </article>
+            
+        {% endfor %}
+    </main>
+{% endblock main %}

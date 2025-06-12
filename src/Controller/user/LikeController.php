@@ -8,19 +8,21 @@ use App\Repository\LikeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class LikeController extends AbstractController{
     
     #[Route('/like/toggle/{id}', name:'like-toggle')]
+    #[IsGranted ('ROLE_USER')]
     public function toggle(Recipe $recipe, EntityManagerInterface $entityManager, LikeRepository $likeRepository){
 
         //on récupère l'user connecté
         $user= $this->getUser();
 
-        if(!$user){ //si aucun user connecté on affiche un message error
-            $this->addFlash('error', 'Tu dois être connecté pour liker');
-            return $this->redirectToRoute('login');
-        }
+        // if(!$user){ //si aucun user connecté on affiche un message error
+        //     $this->addFlash('error', 'Tu dois être connecté pour liker');
+        //     return $this->redirectToRoute('login');
+        // }
 
         //on cherche en base s'il existe déjà un like = à cet user ET cette recette
         $existingLike = $likeRepository->findOneBy(['user'=>$user, 'recipe'=>$recipe]);
