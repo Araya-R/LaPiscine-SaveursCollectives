@@ -1,0 +1,62 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Liste des utilisateurs
+{% endblock %}
+
+{% block main %}
+	<main>
+
+		<h2>La liste des utilisateurs</h2>
+
+		{% for message in app.flashes ('error') %}
+			<div class="alert alert-danger">{{message}}</div>
+		{% endfor %}
+
+		{% for message in app.flashes ('success') %}
+			<div class="alert alert-success">{{message}}</div>
+		{% endfor %}
+
+		<table>
+			<thead>
+				<tr>
+					<th>Image de profile</th>
+					<th>Pseudo</th>
+					<th>Email</th>
+					<th>Roles</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in users %}
+
+					<tr>
+						<td>
+							{% if user.image %}
+								<img src="{{asset('uploads/users/' ~ user.image)}}" alt="Image de {{user.image}}">
+							{% else %}
+								<span>Pas d'image</span>
+								{% endif %}</td>
+						</td>
+						<td>
+							{{user.pseudo}}
+						</td>
+						<td>
+							<a href="{{path('admin-show-Userprofile', {'id':user.id})}}">{{user.email}}</a>
+						</td>
+						<td>
+							{% for role in user.roles %}
+								<p>{{role}}</p>
+								{% endfor %}</td>
+						</td>
+						<td>
+							<a href="{{path('admin-delete-user', {'id': user.id})}}">Supprimer🗑️</a>
+						</td>
+					</tr>
+
+				{% endfor %}</tbody>
+			</tbody>
+		</table>
+
+
+	</main>
+{% endblock %}

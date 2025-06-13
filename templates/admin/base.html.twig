@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="{{asset('assets/css/main.css')}}">
+
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Hand+Pre:wght@400..700&display=swap" rel="stylesheet">
+
+		<title>
+			{% block title %}{% endblock %}
+		</title>
+	</head>
+	<body>
+		<header>
+			<div class="nav-links">
+				<a href="">Home</a>
+				<a href="{{path('admin-display-users')}}">Liste des utilisateurs</a>
+			</div>
+			
+			<form action="{{path('user-search-recipe')}}" method="get">
+				<input type="text" name="search" placeholder="Rechercher une recette">
+				<button type="submit">🔍</button>
+			</form>
+
+			<div class="auth-button">
+				<a href="{{path('logout')}}">Se déconnecter</a>
+				<a href=""></a>
+			</div>
+		</header>
+
+		{% block main %}{% endblock %}
+
+		{% include "user/partials/_footer.html.twig" %}
+
+		{% block javascript %}
+
+			 <script src="{{asset('assets/js/index.js')}}"></script>
+		{% endblock %}
+
+	</body>
+
+</html>
