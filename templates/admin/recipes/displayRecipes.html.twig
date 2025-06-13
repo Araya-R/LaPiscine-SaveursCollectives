@@ -1,0 +1,71 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Toues les recettes
+{% endblock %}
+
+{% block main %}
+	<main>
+
+		<h2>Toutes les recettes</h2>
+
+		{% for message in app.flashes ('error') %}
+			<div class="alert alert-danger">{{message}}</div>
+		{% endfor %}
+
+		{% for message in app.flashes ('success') %}
+			<div class="alert alert-success">{{message}}</div>
+		{% endfor %}
+
+		<table>
+			<thead>
+				<tr>
+					<th>Publié?</th>
+					<th>Image</th>
+					<th>ID</th>
+					<th>Titre</th>
+					<th>Auteur</th>
+					<th>Catégorie</th>
+					<th>Date de création</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for recipe in recipes %}
+
+					<tr>
+						<td>
+							{{recipe.isPublished ? 'Oui' : 'Non'}}
+						</td>
+						<td>
+							{% if recipe.image %}
+								<img src="{{asset('uploads/recipes/' ~ recipe.image)}}" alt="Image de {{recipe.title}}">
+							{% else %}
+								<span>Pas d'image</span>
+							{% endif %}
+
+						</td>
+						<td>{{recipe.id}}</td>
+						<td>
+							<a href="{{path('admin-show-recipe', {'id':recipe.id })}}">{{recipe.title}}</a>
+						</td>
+						<td>
+							<a href="{{path('admin-show-Userprofile', {'id':recipe.user.id})}}">{{recipe.user.pseudo}} - {{recipe.user.email}}</a>
+						</td>
+						<td>
+							{{recipe.category.title}}
+						</td>
+						<td>
+							{{recipe.createdAt | date ('d/m/Y')}}
+						</td>
+						<td>
+							<a href="{{path('admin-delete-recipe', {'id': recipe.id})}}">Supprimer🗑️</a>
+						</td>
+					</tr>
+
+				{% endfor %}
+			</tbody>
+
+		</table>
+
+	</main>
+{% endblock %}
