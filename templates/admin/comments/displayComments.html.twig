@@ -1,0 +1,61 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Tous les commentaires
+{% endblock %}
+
+{% block main %}
+	<main>
+
+		<h2>Tous les commentaires :</h2>
+
+		{% for message in app.flashes ('error') %}
+			<div class="alert alert-danger">{{message}}</div>
+		{% endfor %}
+
+		{% for message in app.flashes ('success') %}
+			<div class="alert alert-success">{{message}}</div>
+		{% endfor %}
+
+		<table>
+			<thead>
+				<tr>
+					<th>Utilisateur</th>
+					<th>recette</th>
+                    <th>commentaire</th>
+					<th>Date</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for comment in comments %}
+
+					<tr>
+						<td>
+							{{comment.user.pseudo}}
+						</td>
+                        <td>
+							{{comment.recipe.title}}
+						</td>
+                        <td>
+							{{comment.user.content}}
+						</td>
+                        <td>
+							{{comment.createdAt|date('d/m/Y')}}
+						</td>
+                        <td>
+							<a href="">Supprimer🗑️</a>
+						</td>
+					</tr>
+                
+                {% else %}
+                    <tr>
+                        <td colspan="5">Aucun commentaire trouvé.
+                    </td>
+
+				{% endfor %}
+			</tbody>
+
+		</table>
+
+	</main>
+{% endblock %}

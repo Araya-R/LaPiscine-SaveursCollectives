@@ -15,16 +15,20 @@
 	</head>
 	<body>
 		<header>
+		
+			
+			{% if app.user %}
+			<p>	Administrateur :
+				{{app.user.pseudo}}
+			</p>
+			{% endif %}
+			
 			<div class="nav-links">
-				<a href="">Home</a>
+				<a href="{{path('admin-home')}}">Home</a>
 				<a href="{{path('admin-display-users')}}">Liste des utilisateurs</a>
 				<a href="{{path('admin-display-recipes')}}">Liste des recettes</a>
+				<a href="{{path('admin-display-comments')}}">Liste des commentaires</a>
 			</div>
-			
-			<form action="{{path('user-search-recipe')}}" method="get">
-				<input type="text" name="search" placeholder="Rechercher une recette">
-				<button type="submit">🔍</button>
-			</form>
 
 			<div class="auth-button">
 				<a href="{{path('logout')}}">Se déconnecter</a>
@@ -34,7 +38,7 @@
 
 		{% block main %}{% endblock %}
 
-		{% include "user/partials/_footer.html.twig" %}
+		{% include "admin/partials/_footer.html.twig" %}
 
 		{% block javascript %}
 

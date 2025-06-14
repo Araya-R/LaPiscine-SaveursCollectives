@@ -1,0 +1,62 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Accueil
+{% endblock %}
+
+{% block main %}
+	<main>
+		<h2>Statistiques globales :</h2>
+
+		<ul>
+			<li>
+				📚 Nombre total de recettes :
+				{{totalRecipes}}
+			</li>
+			<li>
+				👨‍🍳 Utilisateurs inscrits :
+				{{totalUsers}}
+			</li>
+			<li>
+				✅ Recettes publiées :
+				{{publishedRecipes}}
+			</li>
+			<li>
+				❌ Recettes non publiées :
+				{{unpublishedRecipes}}
+			</li>
+		</ul>
+
+		<div>
+			<h2>Recettes les plus likées :
+			</h2>
+			<ul>
+				{% for recipe in mostLikedRecipes %}
+					<li>
+						{{recipe.title}}
+						- ❤️
+						{{recipe.likes | length}}
+					</li>
+
+				{% else %}
+					<li>
+						Aucune recette trouvée.
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+
+        <div>
+            <h2>Recettes les plus commentées :</h2>
+
+            <ul>
+                {% for recipe in mostCommentedRecipes %}
+                <li>{{recipe.title}} - 💬 {{recipe.comments | length}} </li>
+                
+                {% else %}
+                    <li>Aucune recette trouvée.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+	</main>
+{% endblock %}

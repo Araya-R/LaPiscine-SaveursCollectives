@@ -52,6 +52,32 @@ class RecipeRepository extends ServiceEntityRepository
         ->getResult();
     }
 
+    public function countPublishedRecipes(): int
+    {
+        return (int) $this->count([
+            'isPublished' => true
+        ]);
+    }
+
+    public function countUnpublishedRecipes(): int
+    {
+        return (int) $this->count([
+            'isPublished' => false
+        ]);
+    }
+
+    public function findMostCommented(int $limit = 5)
+    {
+        return $this->createQueryBuilder('r')
+            ->leftJoin('r.comments', 'c')
+            ->groupBy('r.id')
+            ->orderBy('COUNT(c.id)', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+
     //    /**
     //     * @return Recipe[] Returns an array of Recipe objects
     //     */
