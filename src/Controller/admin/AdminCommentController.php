@@ -2,6 +2,7 @@
 
 namespace App\Controller\admin;
 
+use App\Entity\Comment;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,5 +20,16 @@ class AdminCommentController extends AbstractController{
         return $this->render('admin/comments/displayComments.html.twig', [
             'comments' => $comments,
         ]);
+    }
+
+    #[Route('/admin/comments/delete/{id}', name:'admin-delete-comment')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function deleteComment(Comment $comment, EntityManagerInterface $entityManager){
+
+        $entityManager->remove($comment);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Commentaire supprimé.');
+        return $this->redirectToRoute('admin-display-comments');
     }
 }

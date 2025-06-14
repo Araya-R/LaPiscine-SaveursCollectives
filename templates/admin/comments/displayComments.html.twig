@@ -31,27 +31,27 @@
 
 					<tr>
 						<td>
-							{{comment.user.pseudo}}
+							{{comment.user.pseudo}} -
+                            {{comment.user.email}}
 						</td>
                         <td>
 							{{comment.recipe.title}}
 						</td>
                         <td>
-							{{comment.user.content}}
+							{{comment.content}}
 						</td>
                         <td>
 							{{comment.createdAt|date('d/m/Y')}}
 						</td>
                         <td>
-							<a href="">Supprimer🗑️</a>
+							<a href="{{path('admin-delete-comment', {'id':comment.id })}}">Supprimer🗑️</a>
 						</td>
 					</tr>
                 
                 {% else %}
                     <tr>
-                        <td colspan="5">Aucun commentaire trouvé.
-                    </td>
-
+                        <td colspan="5">Aucun commentaire trouvé.</td>
+                    </tr>
 				{% endfor %}
 			</tbody>
 
