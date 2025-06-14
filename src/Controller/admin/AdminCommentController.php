@@ -22,6 +22,8 @@ class AdminCommentController extends AbstractController{
         ]);
     }
 
+// -----------------------------------------------------------------------------------------------------------------//
+
     #[Route('/admin/comments/delete/{id}', name:'admin-delete-comment')]
     #[IsGranted('ROLE_ADMIN')]
     public function deleteComment(Comment $comment, EntityManagerInterface $entityManager){

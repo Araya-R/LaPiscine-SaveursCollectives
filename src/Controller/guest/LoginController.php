@@ -14,7 +14,7 @@ class LoginController extends AbstractController{
 
         //Si déjà connecté, on redirige selon le rôle
         if ($security->isGranted('ROLE_ADMIN')){
-            return $this->redirectToRoute('admin-display-users');
+            return $this->redirectToRoute('admin-home');
         }
         if ($security->isGranted('ROLE_USER')){
             return $this->redirectToRoute('user-home');

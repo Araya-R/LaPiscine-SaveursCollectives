@@ -65,13 +65,12 @@ class UserController extends AbstractController
                 $user->setUpdatedAt(new \DateTimeImmutable());
                 
 
-                if(!empty($password)){
+                if(!empty(trim($password))){ //fonction trim => supprime les espaces au début et à la fin de la chaine de caractère $password
                     //hasher de nouveau mot de passe
                     $hashedPassword=$passwordHasher->hashPassword($user, $password);
                     $user->setPassword($hashedPassword);
                 }
 
-                $entityManager->persist($user);
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Votre profil mis à jour avec succès.');

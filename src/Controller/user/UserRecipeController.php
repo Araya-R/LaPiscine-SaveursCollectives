@@ -80,6 +80,7 @@ class UserRecipeController extends AbstractController{
             $recipe->setCreatedAt(new \DateTimeImmutable());
             $recipe->setUpdatedAt(new \DateTimeImmutable());
 
+            $recipe->setUser($this->getUser());
             
             //traitement de l'image (si présente)
             $imageRecipe =$request->files->get('image');
