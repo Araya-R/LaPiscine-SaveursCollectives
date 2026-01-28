@@ -13,6 +13,7 @@ class UserPageController extends AbstractController{
     #[Route('/user', name:'user-home')]
     public function homePage(CategoryRepository $categoryRepository, RecipeRepository $recipeRepository): Response
     {
+        // on vérifie si l'user est bien connecté
         $user = $this->getUser();
         if(!$user){
             return $this->redirectToRoute('login');
@@ -20,14 +21,13 @@ class UserPageController extends AbstractController{
         //on récupère toutes les catégories
         $categories=$categoryRepository->findAll();
 
-        //on crée un tableau pour stocker les résultats
+        //on crée un tableau pour stocker les résultats qui contient les catégories avec ses recettes associées
         $categoriesWithRecipes = [];
 
         //on boucle sur chaque catégorie récupérée
         foreach ($categories as $category){
 
-            //on fait appel à la méthode créée avec en param id d'une catégorie 
-            //pour extraire id on utilise la méthode getter de la classe Category
+            // on récupère les recettes associées à cette catégorie
             $recipes=$recipeRepository->findTopPublishedByCategory($category->getId());
 
             //on prépare une structure contenant la catégorie et ses recettes
@@ -37,8 +37,10 @@ class UserPageController extends AbstractController{
             ];
         }
 
+        // récupérer les recettes les plus likés
         $mostLiked=$recipeRepository->findMostLiked(5);
 
+        // envoyer les données au template Twig
         return $this->render('user/home.html.twig', [
             'categoriesWithRecipes' =>$categoriesWithRecipes,
             'mostLiked'=> $mostLiked,
