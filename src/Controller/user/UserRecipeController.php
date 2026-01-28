@@ -109,6 +109,7 @@ class UserRecipeController extends AbstractController{
     //LISTE DES RECETTES DE L'USER
 
     #[Route('/user/list-recipes', name:'user-list-recipes')]
+    #[IsGranted('ROLE_USER')]
     public function displayRecipes (RecipeRepository $recipeRepository){
 
         $user=$this->getUser();
@@ -124,6 +125,7 @@ class UserRecipeController extends AbstractController{
     //SUPPRIMER UNE RECETTE
 
     #[Route('/user/delete-recipe/{id}', name:'user-delete-recipe')]
+    #[IsGranted('ROLE_USER')]
     public function deleteRecipe($id, RecipeRepository $recipeRepository, EntityManagerInterface $entityManager){
         $user = $this->getUser();
         if(!$user){
@@ -151,6 +153,7 @@ class UserRecipeController extends AbstractController{
     //MODIFIER UNE RECETTE
 
     #[Route('/user/update-recipe/{id}', name:'user-update-recipe')]
+    #[IsGranted('ROLE_USER')]
     public function updateRecipe($id, RecipeRepository $recipeRepository,CategoryRepository $categoryRepository ,EntityManagerInterface $entityManager, Request $request, ParameterBagInterface $parameterBag){
 
         $user = $this->getUser();
@@ -215,8 +218,9 @@ class UserRecipeController extends AbstractController{
         return $this->render('user/recipes/updateRecipe.html.twig', ['categories'=>$categories, 'recipe'=>$recipe]);
     }
 
-    //-----------------------------------------------------------------------------------------------//
-        #[Route('/user/detail-recipe/{id}', name:'user-detail-recipe')]
+//-----------------------------------------------------------------------------------------------//
+    #[Route('/user/detail-recipe/{id}', name:'user-detail-recipe')]
+    #[IsGranted('ROLE_USER')]
     public function displayRecipe($id, RecipeRepository $recipeRepository, CommentRepository $commentRepository){
         
         $user = $this->getUser();
@@ -236,6 +240,7 @@ class UserRecipeController extends AbstractController{
     //-----------------------------------------------------------------------------------------------//
 
     #[Route('/user/search-recipe', name:'user-search-recipe')]
+    #[IsGranted('ROLE_USER')]
     public function search(Request $request, RecipeRepository $recipeRepository){
         
         $search=$request->query->get('search');

@@ -19,10 +19,6 @@ class LikeController extends AbstractController{
         //on récupère l'user connecté
         $user= $this->getUser();
 
-        // if(!$user){ //si aucun user connecté on affiche un message error
-        //     $this->addFlash('error', 'Tu dois être connecté pour liker');
-        //     return $this->redirectToRoute('login');
-        // }
 
         //on cherche en base s'il existe déjà un like = à cet user ET cette recette
         $existingLike = $likeRepository->findOneBy(['user'=>$user, 'recipe'=>$recipe]);
