@@ -13,6 +13,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class LikeController extends AbstractController{
     
     #[Route('/like/toggle/{id}', name:'like-toggle')]
+    
+    // Restriction par rôle
     #[IsGranted ('ROLE_USER')]
     public function toggle(Recipe $recipe, EntityManagerInterface $entityManager, LikeRepository $likeRepository){
 
