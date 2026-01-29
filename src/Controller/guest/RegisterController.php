@@ -18,25 +18,29 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
 class RegisterController extends AbstractController
 {
-
-    #[Route('/register', name: 'register', methods: ['GET', 'POST'])]
+    // CRÉATION DE COMPTE 
+    #[Route('/register', name: 'register', methods: ['GET', 'POST'])] //autorise GET= afficher le formulaire et POST =traiter l'inscription
     public function register(
         Request $request,
         EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $passwordHasher,
         ParameterBagInterface $parameterBag
     ) {
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST')) { //on vérifie que le formulaire est bien soumis
+            
+            //on récupère les données par le formulaire
             $pseudo = $request->request->get('pseudo');
             $email = $request->request->get('email');
             $password = $request->request->get('password');
 
-            if (empty($pseudo) || empty($email) || empty($password)) {
+            if (empty($pseudo) || empty($email) || empty($password)) { //on vérifie que les champs sont remplis
                 $this->addFlash('error', 'Tous les champs sont obligatoires !');
                 return $this->redirectToRoute('register');
             }
 
             try {
+
+                // on crée le nouvel user= on instancie un nouvel user
                 $user = new User();
                 $user->setPseudo($pseudo);
                 $user->setEmail($email);
@@ -53,18 +57,18 @@ class RegisterController extends AbstractController
                 //HASHAGE DU MOT DE PASSE
                 $passwordHashed = $passwordHasher->hashPassword($user, $password);
                 $user->setPassword($passwordHashed);
-                $user->setRoles(['ROLE_USER']);
+                $user->setRoles(['ROLE_USER']); // on attribut le role user par défaut
                 $user->setCreatedAt(new \DateTimeImmutable());
                 $user->setUpdatedAt(new \DateTimeImmutable());
 
-                $entityManager->persist($user);
+                $entityManager->persist($user); //sauvegarde en BDD (insertion)
 
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Votre compte a bien été créé ! Vous pouvez maintenant vous connecter!');
                 return $this->redirectToRoute('login');
-            } catch (\Exception $e) {
-                if ($e->getCode() == 1062) {
+            } catch (\Exception $e) { //gestion des erreurs
+                if ($e->getCode() == 1062) { //erreur due au doublon 
                     $this->addFlash('error', 'Cet email existe déjà!');
                     return $this->redirectToRoute('register');
                 }

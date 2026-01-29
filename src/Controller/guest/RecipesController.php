@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RecipesController extends AbstractController{
 
+    //AFFICHER LE DÉTAIL D'UNE RECETTE ET SES COMMENTAIRES 
     #[Route('/detail-recipe/{id}', name:'detail-recipe')]
     public function displayRecipe($id, RecipeRepository $recipeRepository,CommentRepository $commentRepository){
         
@@ -26,6 +27,7 @@ class RecipesController extends AbstractController{
     
 //-----------------------------------------------------------------------------------------------//
 
+    // BARRE DE RECHERCHE PAR MOT CLÉ
     #[Route('/search-recipe', name:'search-recipe')]
     public function search(Request $request, RecipeRepository $recipeRepository){
         
