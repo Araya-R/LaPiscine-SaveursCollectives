@@ -11,6 +11,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AdminCommentController extends AbstractController{
 
+    // AFFICHER TOUS LES COMMENTAIRES 
     #[Route('/admin/comments', name:'admin-display-comments')]
     #[IsGranted('ROLE_ADMIN')]
 
@@ -24,6 +25,7 @@ class AdminCommentController extends AbstractController{
 
 // -----------------------------------------------------------------------------------------------------------------//
 
+    // SUPPRESSION DE COMMENTAIRE
     #[Route('/admin/comments/delete/{id}', name:'admin-delete-comment')]
     #[IsGranted('ROLE_ADMIN')]
     public function deleteComment(Comment $comment, EntityManagerInterface $entityManager){

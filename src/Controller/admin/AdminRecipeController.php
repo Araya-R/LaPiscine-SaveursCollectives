@@ -11,6 +11,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AdminRecipeController extends AbstractController{
 
+    // AFFICHAGE DE TOUTES DES RECETTES
     #[Route('/admin/recipes', name:'admin-display-recipes')]
     #[IsGranted('ROLE_ADMIN')]
     public function displayRecipes(RecipeRepository $recipeRepository){
@@ -27,6 +28,7 @@ class AdminRecipeController extends AbstractController{
     #[Route('/admin/recipes/{id}', name:'admin-show-recipe')]
     #[IsGranted('ROLE_ADMIN')]
 
+    // AFFICHER UNE RECETTE
     public function showRecipe( int $id, RecipeRepository $recipeRepository){
         $recipe = $recipeRepository->find($id);
         if (!$recipe) {
@@ -41,6 +43,7 @@ class AdminRecipeController extends AbstractController{
     #[Route('admin/recipes/delete/{id}', name:'admin-delete-recipe')]
     #[IsGranted('ROLE_ADMIN')]
 
+    // SUPPRESSION D'UNE RECETTE
     public function deleteRecipe(Recipe $recipe, EntityManagerInterface $entityManager){
         
         //Symfony va automatiquement chercher l'id de la recette =>

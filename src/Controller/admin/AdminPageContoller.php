@@ -10,6 +10,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AdminPageContoller extends AbstractController{
 
+    //AFFICHAGE TABLEAU DE BORD
     #[Route('/admin', name: 'admin-home')]
     #[IsGranted('ROLE_ADMIN')]
     public function homePage(RecipeRepository $recipeRepository, UserRepository $userRepository){
@@ -19,6 +20,7 @@ class AdminPageContoller extends AbstractController{
             throw $this->createAccessDeniedException('Vous devez vous connecter pour accéder à cette page.');
         }
 
+        // STATISTIQUES GLOBALES
         $totalRecipes= $recipeRepository->count([]);
         $totalUsers = $userRepository->count([]);
         $publishedRecipes = $recipeRepository->countPublishedRecipes();

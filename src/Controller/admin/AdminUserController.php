@@ -12,6 +12,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AdminUserController extends AbstractController{
 
+    // AFFICHER TOUS LES USERS 
     #[Route('/admin/display-users', name:'admin-display-users')]
     #[IsGranted('ROLE_ADMIN')]
     public function displayUsers(UserRepository $userRepository){
@@ -23,6 +24,7 @@ class AdminUserController extends AbstractController{
 
 // -----------------------------------------------------------------------------------------------------------------//
 
+    // AFFICHER LE PROFIL D'UN USER
     #[Route('/admin/user/{id}', name:'admin-show-Userprofile', requirements: ['id' => '\d+'])]
     #[IsGranted('ROLE_ADMIN')]
     public function showUserProfile(int $id, UserRepository $userRepository) {
@@ -37,6 +39,7 @@ class AdminUserController extends AbstractController{
 
 // -----------------------------------------------------------------------------------------------------------------//
 
+    // SUPPRESSION USER
     #[Route('/admin/delete-user/{id}', name:'admin-delete-user', requirements: ['id' => '\d+'])]
     #[IsGranted('ROLE_ADMIN')]
     public function deleteUser(int $id, UserRepository $userRepository, EntityManagerInterface $entityManager, Request $request){
