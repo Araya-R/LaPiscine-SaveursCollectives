@@ -12,7 +12,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
 class CommentController extends AbstractController
-{
+{   
+    // AJOUT COMMENTAIRE
     // La route : définit URL de la page/ nom interne de la route/ cette route n'accepte que les requêtes POST (important pour la sécurité = soumission de formulaire)
     #[Route('/recipe/{id}/comment', name: 'recipe-add-comment', methods: ['POST'])]
     

@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserPageController extends AbstractController{
 
+    // AFFICHAGE PAGE D'ACCEUIL
     #[Route('/user', name:'user-home')]
     public function homePage(CategoryRepository $categoryRepository, RecipeRepository $recipeRepository): Response
     {

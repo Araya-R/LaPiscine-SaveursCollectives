@@ -26,7 +26,7 @@ class UserController extends AbstractController
         // on récupère l'user connecté
         $user=$this->getUser();
 
-        // bloque l'aacès si l'user n'est pas connecté
+        // bloque l'accès si l'user n'est pas connecté
         if(!$user){
             throw $this->createAccessDeniedException('Vous devez être connecté pour voir votre profil.');
         }

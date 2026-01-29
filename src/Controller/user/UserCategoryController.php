@@ -11,10 +11,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserCategoryController extends AbstractController{
 
+    // AFFICHER LA LISTE DES CATEGORIES
     //La route : URL / nom / méthode par défaut GET
     #[Route('/user/categories', name:'user-categories')]
 
-    // Créer une méthode afin d'afficher la liste des catégories
     // autowiring : injecte auto le repository lié à l'entité Category/Sert à interagir avec la base de données
     public function displayCategories(CategoryRepository $categoryRepository){
        
@@ -26,7 +26,7 @@ class UserCategoryController extends AbstractController{
     }
 
 
-    // affiche une catégorie précise et ses recettes associées
+    // AFFICHER UNE CATÉGORIE PRÉCISE ET SES RECETTES 
     #[Route('/user/category/{id}', name:'user-show-category')]
     public function showByCategory(Category $category){
         

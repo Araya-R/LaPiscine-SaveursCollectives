@@ -11,7 +11,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class LikeController extends AbstractController{
-    
+
+    // LIKER UNE RECETTE
     #[Route('/like/toggle/{id}', name:'like-toggle')]
     
     // Restriction par rôle
