@@ -11,12 +11,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CategoryController extends AbstractController{
 
+    // AFFICHER LA LISTE DES CATEGORIES
     #[Route('/categories', name:'categories')]
     public function displayCategories(CategoryRepository $categoryRepository){
         $categories=$categoryRepository->findAll();
         return $this->render('guest/categories/listCategories.html.twig', ['categories'=>$categories]);
     }
 
+    // AFFICHER LES RECETTES PAR CATÉGORIE
     #[Route('/category/{id}', name:'show-category')]
     public function showByCategory(Category $category){
         $recipes=$category->getRecipes();
